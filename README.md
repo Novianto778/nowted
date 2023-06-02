@@ -11,7 +11,7 @@ Next.js for the core
 TailwindCSS for styling
 TypeScript
 Drizzle for ORM
-PlanetScale with Postgresql for Databases
+Supabase for Backend
 SWR for Data Fetching
 Zustand for State Management
 Tip tap for Rich Text Editor
