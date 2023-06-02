@@ -2,7 +2,7 @@ import './globals.css';
 import { Source_Sans_Pro } from 'next/font/google';
 import SupabaseAuthProvider from '@/components/providers/supabase-auth-provider';
 import SupabaseProvider from '@/components/providers/supabase-provider';
-import { createClient } from '@/utils/supabase-server';
+import { createServerClient } from '@/utils/supabase-server';
 
 const sourceSansPro = Source_Sans_Pro({
   subsets: ['latin'],
@@ -20,7 +20,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createClient();
+  const supabase = createServerClient();
 
   const {
     data: { session }

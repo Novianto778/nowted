@@ -4,7 +4,7 @@ import 'server-only';
 
 import type { Database } from '@/types/supabase';
 
-export const createClient = () =>
+export const createServerClient = () =>
   createServerComponentClient<Database>(
     {
       cookies
