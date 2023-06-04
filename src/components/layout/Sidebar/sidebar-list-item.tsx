@@ -1,6 +1,14 @@
 import { cn } from '@/lib/utils';
 import { VariantProps, cva } from 'class-variance-authority';
-import { File, LucideIcon, Folder, Star, Trash, Archive } from 'lucide-react';
+import {
+  File,
+  LucideIcon,
+  Folder,
+  Star,
+  Trash,
+  Archive,
+  FolderOpen
+} from 'lucide-react';
 
 const ListVariants = cva(
   'px-5 py-2.5 flex items-center gap-2.5 duration-300 cursor-pointer',
@@ -54,14 +62,19 @@ const SidebarListItem = ({
     { type: 'folder', icon: Folder },
     { type: 'favorite', icon: Star },
     { type: 'trash', icon: Trash },
-    { type: 'archived', icon: Archive }
+    { type: 'archived', icon: Archive },
+    {
+      type: 'folder-open',
+      icon: FolderOpen
+    }
   ];
   const Icon = icons.find(icon => icon.type === type)?.icon as LucideIcon;
+  const CurrentIcon = Icon === Folder && isActive ? FolderOpen : Icon;
 
   return (
     <div className={cn(ListVariants({ type, isActive }), className)} {...props}>
       <span className="flex h-5 w-5 items-center justify-center">
-        <Icon className="h-5 w-5" />
+        <CurrentIcon className="h-5 w-5" />
       </span>
       <span>{title}</span>
     </div>
