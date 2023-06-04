@@ -1,5 +1,7 @@
+import { SelectFolder } from '@/components/layout/Folder';
+
 const NoteDashboard = () => {
-  return <div>choose folder</div>;
+  return <SelectFolder />;
 };
 
 export default NoteDashboard;
