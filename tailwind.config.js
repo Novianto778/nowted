@@ -21,6 +21,10 @@ module.exports = {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))'
         },
+        tertiary: {
+          DEFAULT: 'hsl(var(--tertiary))',
+          foreground: 'hsl(var(--tertiary-foreground))'
+        },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))'
@@ -64,7 +68,7 @@ module.exports = {
     }
   },
   plugins: [
-    require('tailwindcss-animate'),
-    require('prettier-plugin-tailwindcss')
+    require('tailwindcss-animate')
+    // require('prettier-plugin-tailwindcss')
   ]
 };
