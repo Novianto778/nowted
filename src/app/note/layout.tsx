@@ -1,4 +1,4 @@
-import React from 'react';
+import Sidebar from '@/components/layout/Sidebar';
 
 type Props = {
   children: React.ReactNode;
@@ -6,9 +6,11 @@ type Props = {
 
 const NotesLayout = ({ children }: Props) => {
   return (
-    <div className="grid grid-cols-3 gap-4 h-screen">
-      left sidebar
-      <div className="col-span-2 bg-blue-200">{children}</div>
+    <div className="flex h-screen bg-background">
+      <div className="w-[300px]">
+        <Sidebar />
+      </div>
+      <div className="flex-1">{children}</div>
     </div>
   );
 };
