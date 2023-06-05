@@ -1,19 +1,18 @@
 'use client';
 
-import { Profile } from '@/types/collections';
-import { Session } from '@supabase/supabase-js';
+import { AuthError, AuthResponse, Session, User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import { createContext, useContext, useEffect } from 'react';
 import useSWR from 'swr';
 import { useSupabase } from './supabase-provider';
 interface ContextI {
-  user: Profile | null | undefined;
+  user: User | null | undefined;
   error: any;
   isLoading: boolean;
   mutate: any;
   signOut: () => Promise<void>;
   signInWithGithub: () => Promise<void>;
-  signInWithEmail: (email: string, password: string) => Promise<string | null>;
+  signInWithEmail: (email: string, password: string) => Promise<AuthResponse>;
 }
 const Context = createContext<ContextI>({
   user: null,
@@ -22,7 +21,16 @@ const Context = createContext<ContextI>({
   mutate: null,
   signOut: async () => {},
   signInWithGithub: async () => {},
-  signInWithEmail: async (email: string, password: string) => null
+  signInWithEmail: async (email: string, password: string) => {
+    // return as AuthResponse
+    return {
+      data: {
+        user: null,
+        session: null
+      },
+      error: null
+    } as AuthResponse;
+  }
 });
 
 export default function SupabaseAuthProvider({
@@ -37,11 +45,10 @@ export default function SupabaseAuthProvider({
 
   // Get USER
   const getUser = async () => {
-    const { data: user, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', serverSession?.user?.id)
-      .single();
+    const {
+      data: { user },
+      error
+    } = await supabase.auth.getUser();
     if (error) {
       console.log(error);
       return null;
@@ -70,16 +77,15 @@ export default function SupabaseAuthProvider({
 
   // Sign-In with Email
   const signInWithEmail = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
     });
 
-    if (error) {
-      return error.message;
-    }
-
-    return null;
+    return {
+      data,
+      error
+    } as AuthResponse;
   };
 
   // Refresh the Page to Sync Server and Client
