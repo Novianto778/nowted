@@ -3,6 +3,7 @@ import { Source_Sans_Pro } from 'next/font/google';
 import SupabaseAuthProvider from '@/components/providers/supabase-auth-provider';
 import SupabaseProvider from '@/components/providers/supabase-provider';
 import { createServerClient } from '@/utils/supabase-server';
+import ToasterProvider from '@/components/providers/toaster-provider';
 
 const sourceSansPro = Source_Sans_Pro({
   subsets: ['latin'],
@@ -30,6 +31,7 @@ export default async function RootLayout({
       <body className={sourceSansPro.className}>
         <SupabaseProvider>
           <SupabaseAuthProvider serverSession={session}>
+            <ToasterProvider />
             {children}
           </SupabaseAuthProvider>
         </SupabaseProvider>

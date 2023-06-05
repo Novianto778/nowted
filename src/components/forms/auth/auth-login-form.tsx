@@ -2,61 +2,105 @@
 
 import * as React from 'react';
 
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input
+} from '@/components/forms';
+import { useAuth } from '@/components/providers/supabase-auth-provider';
+import { Button } from '@/components/ui';
 import { cn } from '@/lib/utils';
-import { Button, Label } from '@/components/ui';
-import { Input } from '@/components/forms';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Github, Loader2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 
 interface AuthLoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
+const formSchema = z.object({
+  email: z.string().email(),
+  password: z.string()
+});
+
 const AuthLoginForm = ({ className, ...props }: AuthLoginFormProps) => {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const { signInWithEmail } = useAuth();
+  const router = useRouter();
 
-  async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault();
-    setIsLoading(true);
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: '',
+      password: ''
+    }
+  });
 
-    setTimeout(() => {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setIsLoading(true);
+      const { error } = await signInWithEmail(values.email, values.password);
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      console.log('error while signin', error);
+    } finally {
       setIsLoading(false);
-    }, 3000);
+      toast.success('Signed in successfully');
+      router.push('/note');
+    }
   }
 
   return (
     <div className={cn('grid gap-6', className)} {...props}>
-      <form onSubmit={onSubmit}>
-        <div className="grid gap-6">
-          <div className="flex flex-col gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                placeholder="name@example.com"
-                type="email"
-                autoCapitalize="none"
-                autoComplete="email"
-                autoCorrect="off"
-                disabled={isLoading}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="grid gap-6">
+            <div className="flex flex-col gap-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="your@email.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Passwowrd</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="your password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                placeholder="your password"
-                type="password"
-                autoCapitalize="none"
-                autoComplete="password"
-                autoCorrect="off"
-                disabled={isLoading}
-              />
-            </div>
+            <Button disabled={isLoading}>
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Sign In
+            </Button>
           </div>
-          <Button disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Sign In
-          </Button>
-        </div>
-      </form>
+        </form>
+      </Form>
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
