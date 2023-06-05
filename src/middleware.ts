@@ -18,8 +18,6 @@ export async function middleware(req: NextRequest) {
     data: { session }
   } = await supabase.auth.getSession();
 
-  console.log(!session && pathname.startsWith('/note'));
-
   if (!session && pathname.startsWith('/note')) {
     const url = new URL(req.url);
     url.pathname = '/login';
@@ -30,6 +28,6 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // matcher: ['/note/(.*)']
-  matcher: '/noroute' // to easy build my UI without auth
+  matcher: '/note/:path*'
+  // matcher: '/noroute' // to easy build my UI without auth
 };
