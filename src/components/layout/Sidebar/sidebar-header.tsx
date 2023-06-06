@@ -6,6 +6,7 @@ import { Button } from '@/components/ui';
 import { Input } from '@/components/forms';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 const SidebarHeader = () => {
   const [isSearching, setIsSearching] = useState(false);
@@ -13,7 +14,9 @@ const SidebarHeader = () => {
   return (
     <div className="flex flex-col gap-8 px-5">
       <div className="flex items-center justify-between">
-        <Image src="/logo.png" width={100} height={38} alt="nowted logo" />
+        <Link href="/note">
+          <Image src="/logo.png" width={100} height={38} alt="nowted logo" />
+        </Link>
         <Search
           className={cn(
             'h-5 w-5 cursor-pointer select-none text-foreground',

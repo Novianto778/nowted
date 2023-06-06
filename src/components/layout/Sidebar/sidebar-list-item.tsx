@@ -16,7 +16,7 @@ const ListVariants = cva(
     variants: {
       type: {
         file: 'bg-transparent text-white',
-        folder: 'bg-transparent text-white',
+        folder: 'bg-transparent text-white capitalize',
         favorite: 'bg-transparent text-white',
         trash: 'bg-transparent text-white',
         archived: 'bg-transparent text-white'
