@@ -1,10 +1,10 @@
 'use client';
-import { useState } from 'react';
-import useGetUserFolder from '@/hooks/useGetUserFolder';
 import { Skeleton } from '@/components/ui';
-import SidebarListItem from '../Sidebar/sidebar-list-item';
+import useGetCurrentFolderAndNote from '@/hooks/useGetCurrentFolderAndNote';
+import useGetUserFolder from '@/hooks/useGetUserFolder';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import SidebarListItem from '../Sidebar/sidebar-list-item';
 
 const SHOW_LIMIT = 5;
 
@@ -12,10 +12,7 @@ const FolderListContent = () => {
   const { folders, error, isLoading } = useGetUserFolder();
 
   const [showAllFolders, setShowAllFolders] = useState(false);
-  const pathname = usePathname();
-  const arrayOfPathname = pathname.split('/');
-  const currentFolder = arrayOfPathname[2];
-  // const currentNote = arrayOfPathname[3];
+  const { currentFolder } = useGetCurrentFolderAndNote();
 
   let content;
 
