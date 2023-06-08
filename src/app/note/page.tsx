@@ -1,3 +1,4 @@
+'use client';
 import { SelectFolder } from '@/components/layout/Folder';
 
 const NoteDashboard = () => {

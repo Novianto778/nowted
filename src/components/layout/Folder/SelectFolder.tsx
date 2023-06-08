@@ -1,8 +1,17 @@
 import { Plus } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-const SelectFolder = () => {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {}
+
+const SelectFolder = ({ className, ...props }: Props) => {
   return (
-    <div className="flex h-full w-full items-center justify-center">
+    <div
+      className={cn(
+        'flex h-full w-full items-center justify-center',
+        className
+      )}
+      {...props}
+    >
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-bold">Select a folder</h1>

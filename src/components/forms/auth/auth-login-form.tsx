@@ -16,10 +16,10 @@ import { Button } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Github, Loader2 } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
 import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import * as z from 'zod';
 
 interface AuthLoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -44,16 +44,24 @@ const AuthLoginForm = ({ className, ...props }: AuthLoginFormProps) => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setIsLoading(true);
-      const { error } = await signInWithEmail(values.email, values.password);
+      const { data, error } = await signInWithEmail(
+        values.email,
+        values.password
+      );
       if (error) {
         throw error;
       }
-    } catch (error) {
+
+      if (data) {
+        toast.success('Signed in successfully');
+        router.push('/note');
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.log('error while signin', error);
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
-      toast.success('Signed in successfully');
-      router.push('/note');
     }
   }
 
