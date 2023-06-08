@@ -7,9 +7,11 @@ import { Input } from '@/components/forms';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import useGetCurrentFolderAndNote from '@/hooks/useGetCurrentFolderAndNote';
 
 const SidebarHeader = () => {
   const [isSearching, setIsSearching] = useState(false);
+  const { currentFolder } = useGetCurrentFolderAndNote();
   const handleSearch = () => setIsSearching(prev => !prev);
   return (
     <div className="flex flex-col gap-8 px-5">
@@ -26,7 +28,12 @@ const SidebarHeader = () => {
         />
       </div>
       {!isSearching ? (
-        <Button variant="secondary" size="sm" className="flex w-full gap-x-2">
+        <Button
+          variant="secondary"
+          size="sm"
+          className="flex w-full gap-x-2"
+          disabled={!currentFolder}
+        >
           <Plus className="h-5 w-5" />
           New Note
         </Button>

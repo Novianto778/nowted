@@ -32,6 +32,22 @@ export async function POST(request: Request) {
 
   const { name } = await request.json();
 
+  // check folder name is unique
+
+  const { data: isDuplicate } = await supabase
+    .from('folder')
+    .select('*')
+    .eq('name', name.toLowerCase())
+    .eq('userId', user?.id)
+    .single();
+
+  if (isDuplicate?.id) {
+    return new Response(
+      JSON.stringify({ message: 'folder name already exists' }),
+      { status: 400 }
+    );
+  }
+
   const { data, error } = await supabase.from('folder').insert([
     {
       name: name,
