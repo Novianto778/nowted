@@ -1,13 +1,19 @@
 'use client';
 import Image from 'next/image';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui';
+import {
+  Button,
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/components/ui';
 import Link from 'next/link';
 import useGetProfilePic from '@/hooks/useGetProfilePic';
 import { useAuth } from '@/components/providers/supabase-auth-provider';
 
 const NavbarProfile = () => {
   const profilePic = useGetProfilePic();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
+
   return (
     <Popover>
       <PopoverTrigger>
@@ -31,9 +37,9 @@ const NavbarProfile = () => {
           <Link href="/settings" className="hover:text-gray-500">
             Settings
           </Link>
-          <Link href="/signout" className="hover:text-gray-500">
+          <Button onClick={signOut} className="hover:text-gray-500">
             Sign Out
-          </Link>
+          </Button>
         </div>
       </PopoverContent>
     </Popover>
