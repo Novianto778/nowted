@@ -4,8 +4,10 @@ type Props = {
   editor: Editor | null;
 };
 
-export const TipTap = ({ editor }: Props) => {
+const TipTap = ({ editor }: Props) => {
   if (!editor) return null;
 
   return <EditorContent className="py-4" editor={editor} />;
 };
+
+export default TipTap;

@@ -1,1 +1,1 @@
-export { default as Tiptap } from './Tiptap';
+export { default as TipTap } from './Tiptap';

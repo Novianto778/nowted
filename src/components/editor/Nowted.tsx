@@ -1,7 +1,7 @@
 import React from 'react';
 import { Note } from '@/types/collections';
 import { useNowtedEditor } from '@/hooks/useNowtedEditor';
-import { TipTap } from './Tiptap';
+import { TipTap } from '@/components/editor';
 import { Toolbar } from './Toolbar';
 import { Calendar, FolderIcon } from 'lucide-react';
 import { debounce } from '@/utils/debounce';
