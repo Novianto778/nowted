@@ -28,6 +28,14 @@ export interface Database {
           name?: string;
           userId?: string | null;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'folder_userId_fkey';
+            columns: ['userId'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          }
+        ];
       };
       notes: {
         Row: {
@@ -36,6 +44,8 @@ export interface Database {
           deleted_at: string | null;
           folderId: number | null;
           id: string;
+          isArchived: boolean | null;
+          isFavorited: boolean | null;
           isPublic: boolean | null;
           publicLink: string | null;
           title: string;
@@ -48,6 +58,8 @@ export interface Database {
           deleted_at?: string | null;
           folderId?: number | null;
           id: string;
+          isArchived?: boolean | null;
+          isFavorited?: boolean | null;
           isPublic?: boolean | null;
           publicLink?: string | null;
           title: string;
@@ -60,35 +72,56 @@ export interface Database {
           deleted_at?: string | null;
           folderId?: number | null;
           id?: string;
+          isArchived?: boolean | null;
+          isFavorited?: boolean | null;
           isPublic?: boolean | null;
           publicLink?: string | null;
           title?: string;
           updated_at?: string | null;
           userId?: string | null;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'notes_folderId_fkey';
+            columns: ['folderId'];
+            referencedRelation: 'folder';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'notes_userId_fkey';
+            columns: ['userId'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          }
+        ];
       };
       profiles: {
         Row: {
           created_at: string | null;
-          id: number;
+          id: string;
           profile_pic: string | null;
           username: string;
-          uuid: string;
         };
         Insert: {
           created_at?: string | null;
-          id: number;
+          id: string;
           profile_pic?: string | null;
           username: string;
-          uuid: string;
         };
         Update: {
           created_at?: string | null;
-          id?: number;
+          id?: string;
           profile_pic?: string | null;
           username?: string;
-          uuid?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'profiles_id_fkey';
+            columns: ['id'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          }
+        ];
       };
       sharing: {
         Row: {
@@ -112,6 +145,20 @@ export interface Database {
           noteId?: string | null;
           userId?: string | null;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'sharing_noteId_fkey';
+            columns: ['noteId'];
+            referencedRelation: 'notes';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'sharing_userId_fkey';
+            columns: ['userId'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          }
+        ];
       };
     };
     Views: {
