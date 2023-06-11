@@ -6,6 +6,7 @@
   :root {
     --background: 0 0% 9%;
     --foreground: 0 0% 60%;
+    --secondary-background: 0 0% 11%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;

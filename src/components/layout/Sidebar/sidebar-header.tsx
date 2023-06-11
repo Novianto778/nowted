@@ -1,18 +1,40 @@
 'use client';
 
-import { Search, Plus } from 'lucide-react';
-import Image from 'next/image';
-import { Button } from '@/components/ui';
 import { Input } from '@/components/forms';
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
+import { Button } from '@/components/ui';
+import { createNote } from '@/utils/createNote';
 import useGetCurrentFolderAndNote from '@/hooks/useGetCurrentFolderAndNote';
+import useGetUserFolder from '@/hooks/useGetUserFolder';
+import { cn } from '@/lib/utils';
+import { Plus, Search } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
+import { useSWRConfig } from 'swr';
+import { useRouter } from 'next/navigation';
 
 const SidebarHeader = () => {
+  const router = useRouter();
   const [isSearching, setIsSearching] = useState(false);
   const { currentFolder } = useGetCurrentFolderAndNote();
   const handleSearch = () => setIsSearching(prev => !prev);
+  const { folders } = useGetUserFolder();
+  const currentFolderId = folders?.find(
+    item => item.name === currentFolder
+  )?.id;
+
+  const { mutate } = useSWRConfig();
+
+  const handleCreateNewNote = async () => {
+    if (currentFolderId) {
+      const res = await createNote(currentFolderId);
+      console.log(res);
+
+      mutate('/api/note?folderId=' + currentFolderId);
+      router.push(`/note/${currentFolder}/${res?.id}`);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-8 px-5">
       <div className="flex items-center justify-between">
@@ -33,6 +55,7 @@ const SidebarHeader = () => {
           size="sm"
           className="flex w-full gap-x-2"
           disabled={!currentFolder}
+          onClick={handleCreateNewNote}
         >
           <Plus className="h-5 w-5" />
           New Note

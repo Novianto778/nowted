@@ -1,3 +1,8 @@
+'use client';
+
+import useGetNote from '@/hooks/useGetNote';
+import Nowted from '@/components/editor/Nowted';
+
 type Props = {
   params: {
     folder: string;
@@ -6,12 +11,19 @@ type Props = {
 };
 
 const Note = ({ params: { note } }: Props) => {
-  if (note !== 'note') {
-    return <p>Note not found</p>;
+  const { data, isLoading, error } = useGetNote(note);
+  if (isLoading) {
+    return <p>Loading</p>;
   }
+
+  if (error) {
+    return <p>Error</p>;
+  }
+
+  if (!data) return <p>No note</p>;
   return (
-    <div>
-      <h2>{note}</h2>
+    <div className="w-full">
+      <Nowted note={data} />
     </div>
   );
 };

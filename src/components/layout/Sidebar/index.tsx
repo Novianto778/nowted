@@ -6,6 +6,7 @@ import FolderListContent from '../Folder/FolderListContent';
 import SidebarHeader from './sidebar-header';
 import SidebarListItem from './sidebar-list-item';
 import SidebarWrapper from './sidebar-wrapper';
+import RecentNoteList from '../Notes/RecentNoteList';
 
 const Sidebar = () => {
   const { mutate } = useCreateNewFolder();
@@ -33,11 +34,7 @@ const Sidebar = () => {
       <SidebarHeader />
       <div className="mt-7 flex flex-col gap-2">
         <h6 className="px-5 text-sm">Recent</h6>
-        <div className="flex flex-col">
-          <SidebarListItem type="file" title="All Notes" />
-          <SidebarListItem type="file" title="All Notes" />
-          <SidebarListItem type="file" title="All Notes" />
-        </div>
+        <RecentNoteList />
       </div>
       <div className="mt-7 flex flex-col gap-2">
         <div className="flex items-center justify-between px-5">

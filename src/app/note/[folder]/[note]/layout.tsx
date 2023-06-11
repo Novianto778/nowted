@@ -1,4 +1,5 @@
 import React from 'react';
+import { SelectedFolderNoteList } from '@/components/layout/Folder';
 
 type Props = {
   children: React.ReactNode;
@@ -9,8 +10,8 @@ type Props = {
 
 const NoteLayout = ({ children, params: { folder } }: Props) => {
   return (
-    <div className="grid grid-cols-2">
-      {folder}
+    <div className="flex h-screen w-full">
+      <SelectedFolderNoteList folder={folder} />
       {children}
     </div>
   );

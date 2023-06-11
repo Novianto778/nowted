@@ -12,6 +12,7 @@ module.exports = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
+        'secondary-background': 'hsl(var(--secondary-background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
@@ -64,12 +65,16 @@ module.exports = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out'
+      },
+      maxHeight: {
+        'editor-content': 'calc(100vh - 220px)'
       }
     }
   },
   plugins: [
     require('tailwindcss-animate'),
-    require('tailwind-scrollbar')
+    require('tailwind-scrollbar'),
+    require('@tailwindcss/typography')
     // require('prettier-plugin-tailwindcss')
   ]
 };
